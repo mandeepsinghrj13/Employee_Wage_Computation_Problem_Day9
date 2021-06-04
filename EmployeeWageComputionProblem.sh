@@ -2,52 +2,51 @@
 echo "Employee Wage Computation Program Push On Master"
 
 
-isPresent=1
+WAGE_PER_HOUR=20
+FULL_TIME=2
+PART_TIME=1
+EMPLOYEE_HOUR_FULLTIME=8
+EMPLOYEE_HOUR_PARTTIME=4
+ NUMBER_OF_WORKING_DAYS=20
+ NUMBER_OF_WORKING_HOURS=100
+totalSalary=0
+totalEmployeeHours=0
+totalWorkingDays=0
+function getWorkHours()
+{
+	randomShiftCheck=$((RANDOM%3))
+	case $randomShiftCheck in
 
-randomNumber=$((RANDOM%2))
-if [ $randomNumber -eq 	$isPresent ]
-then
-	echo "Employee Present"
-	echo "Enter choice: "
-	echo "1.Daily Employee"
-	echo "2.Part Time Employee"
-	read ch
-case "$ch" in
-	1) echo "To calculate Daily Employee Wage"
-
-
-		function calculateDailyEmployeeWageWorkHours(){
-		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		isDayHour=8
-
-		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
-		read -p "working days :" isDay
-		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay  *  $isDay ))
-		echo "To calculate employee wages for a Month :" $calculateEmployeeWageForMonth "rupees"
-		}
-
-		calculateDailyEmployeeWageWorkHours
-		;;
-	2)echo "To calculate part time Employee and wage"
-
-
-		function partTimeEmployeeAndWageWorkHours(){
-		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		isDayHour=8
+		$FULL_TIME )
+			employeeHour=$((EMPLOYEE_HOUR_FULLTIME))
+			;;
+		$PART_TIME )
+			employeeHour=$((EMPLOYEE_HOUR_PARTTIME))
+			;;
+		* )
+			employeeHour=0
+			;;
+   esac
+	echo $employeeHour
+}
 
 
-		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
-		read -p "TO part time working days :" isDay
+function calculateWage()
+{
+	employeeHour=$1
+	wage=$(($employeeHour*$WAGE_PER_HOUR))
+	echo $wage
+}
 
-		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay * $isDay ))
-		echo "To calculate employee part time wages for a Month :" $calculateEmployeeWageForMonth "rupees"
-		}
-		partTimeEmployeeAndWageWorkHours
-		;;
-		*)echo "No choice."
-		;;
-esac
 
-else
-   echo "Employee Absent."
- fi
+while [[ $totalEmployeeHours -lt $NUMBER_OF_WORKING_HOURS && $totalWorkingDays -lt $NUMBER_OF_WORKING_DAYS ]]
+do
+	((totalWorkingDays++))
+	dailyWage[totalWorkingDays]=$(calculateWage $(getWorkHours))
+	totalEmployeeHours=$(($totalEmployeeHours + $(getWorkHours)))
+done
+
+
+totalWageOfMonth=$(($(calculateWage $totalEmployeeHours)))
+echo "Daily wages: ${dailyWage[@]}"
+echo "Total Wage:" $totalWageOfMonth
