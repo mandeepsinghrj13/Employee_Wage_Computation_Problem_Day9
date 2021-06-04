@@ -2,41 +2,52 @@
 echo "Employee Wage Computation Program Push On Master"
 
 
-WAGE_PER_HOUR=20
-IS_FULL_TIME=2
-IS_PART_TIME=1
-EMPLOYEE_HOUR_FULLTIME=8
-EMPLOYEE_HOUR_PARTTIME=4
-read -p "number of working day :" NUMBER_OF_WORKING_DAYS
-read -p "number of working hours :" NUMBER_OF_WORKING_HOURS
+isPresent=1
+
+randomNumber=$((RANDOM%2))
+if [ $randomNumber -eq 	$isPresent ]
+then
+	echo "Employee Present"
+	echo "Enter choice: "
+	echo "1.Daily Employee"
+	echo "2.Part Time Employee"
+	read ch
+case "$ch" in
+	1) echo "To calculate Daily Employee Wage"
 
 
-totalSalary=0
-totalEmployeeHours=0
-totalWorkingDays=0
+		function calculateDailyEmployeeWageWorkHours(){
+		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
+		isDayHour=8
 
-while [[ $totalEmployeeHours -lt $NUMBER_OF_WORKING_HOURS &&
-			$totalWorkingDays -lt $NUMBER_OF_WORKING_DAYS ]]
-do
-	((totalWorkingDays++))
-	randomShiftCheck=$((RANDOM%3))
-	case $randomShiftCheck in
+		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
+		read -p "working days :" isDay
+		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay  *  $isDay ))
+		echo "To calculate employee wages for a Month :" $calculateEmployeeWageForMonth "rupees"
+		}
 
-		$IS_FULL_TIME )
-			employeeHour=$((EMPLOYEE_HOUR_FULLTIME))
-			;;
-		$IS_PART_TIME )
-			employeeHour=$((EMPLOYEE_HOUR_PARTTIME))
-			;;
-		* )
-			employeeHour=0
-			;;
-	esac
-	totalEmployeeHours=$(($totalEmployeeHours+$employeeHour))
-	echo "total employee hours :" $totalEmployeeHours
-done
+		calculateDailyEmployeeWageWorkHours
+		;;
+	2)echo "To calculate part time Employee and wage"
 
 
-totalWorkingWage=$(($totalEmployeeHours*$WAGE_PER_HOUR))
+		function partTimeEmployeeAndWageWorkHours(){
+		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
+		isDayHour=8
 
-echo "Total working wage:" $totalWorkingWage
+
+		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
+		read -p "TO part time working days :" isDay
+
+		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay * $isDay ))
+		echo "To calculate employee part time wages for a Month :" $calculateEmployeeWageForMonth "rupees"
+		}
+		partTimeEmployeeAndWageWorkHours
+		;;
+		*)echo "No choice."
+		;;
+esac
+
+else
+   echo "Employee Absent."
+ fi
