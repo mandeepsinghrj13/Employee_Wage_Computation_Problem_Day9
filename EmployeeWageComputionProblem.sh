@@ -7,31 +7,38 @@ randomNumber=$((RANDOM%2))
 
 if [ $randomNumber -eq 	$isPresent ]
 then
-
 	echo "Employee Present"
-echo "please enter  0 for full time  employee or enter 1 for Part time employee"
-read caseChoce
+	read -p "please enter 0 or 1:" caseChoice
 
-case "$caseChoce" in
+case "$caseChoice" in
 	0) echo "Daily Employee Wage"
-		function calculateDailyEmployeeWae(){
+
+		function calculateDailyEmployeeWage(){
 		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		read -p "full day hours is :" isFullDayHour "hours"
-		calculateEmployeeWage=$(( $isWagePerHour*$isFullDayHour ))
-		echo "daily employee wage :" $calculateEmployeeWage "rupees"
+		isDayHour=8
+
+		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
+		read -p "working days :" isDay
+		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay  *  $isDay ))
+		echo "employee wages for a Month :" $calculateEmployeeWageForMonth "rupees"
 		}
-		calculateDailyEmployeeWae
+		calculateDailyEmployeeWage
 		;;
-	1)echo "part time Employee wage"
+	1)echo "part time Employee and wage"
+
 		function partTimeEmployeeAndWage(){
 		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		read -p "Part time hour is :" isPartTimeDayHour "hours"
-		calculatePartTimeEmployeeWage=$(( $isWagePerHour * $isPartTimeDayHour ))
-		echo "Part time employee wage :" $calculatePartTimeEmployeeWage "rupees"
-			}
+		isDayHour=8
+
+		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
+		read -p "part time working days :" isDay
+
+		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay * $isDay ))
+		echo "To calculate employee part time wages for a Month :" $calculateEmployeeWageForMonth "rupees"
+		}
 		partTimeEmployeeAndWage
 		;;
-		*)echo "Please enter 1 or 2"
+		*)echo "plese enter 1 or 0"
 		;;
 esac
 
