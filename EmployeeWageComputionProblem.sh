@@ -7,11 +7,14 @@ FULL_TIME=2
 PART_TIME=1
 EMPLOYEE_HOUR_FULLTIME=8
 EMPLOYEE_HOUR_PARTTIME=4
- NUMBER_OF_WORKING_DAYS=20
- NUMBER_OF_WORKING_HOURS=100
+read -p "To number of working days :" NUMBER_OF_WORKING_DAYS
+read -p "To number of working hour :" NUMBER_OF_WORKING_HOURS
+
+
 totalSalary=0
 totalEmployeeHours=0
 totalWorkingDays=0
+
 function getWorkHours()
 {
 	randomShiftCheck=$((RANDOM%3))
@@ -48,5 +51,6 @@ done
 
 
 totalWageOfMonth=$(($(calculateWage $totalEmployeeHours)))
+echo "Total wage :"$totaleWageOfMonth
 echo "Daily wages: ${dailyWage[@]}"
-echo "Total Wage:" $totalWageOfMonth
+echo "Day:${!dailyWage[@]}"
