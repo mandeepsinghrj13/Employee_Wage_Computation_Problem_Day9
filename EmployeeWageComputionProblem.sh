@@ -2,46 +2,41 @@
 echo "Employee Wage Computation Program Push On Master"
 
 
-isPresent=1
-randomNumber=$((RANDOM%2))
+WAGE_PER_HOUR=20
+IS_FULL_TIME=2
+IS_PART_TIME=1
+EMPLOYEE_HOUR_FULLTIME=8
+EMPLOYEE_HOUR_PARTTIME=4
+read -p "number of working day :" NUMBER_OF_WORKING_DAYS
+read -p "number of working hours :" NUMBER_OF_WORKING_HOURS
 
-if [ $randomNumber -eq 	$isPresent ]
-then
-	echo "Employee Present"
-	read -p "please enter 0 or 1:" caseChoice
 
-case "$caseChoice" in
-	0) echo "Daily Employee Wage"
+totalSalary=0
+totalEmployeeHours=0
+totalWorkingDays=0
 
-		function calculateDailyEmployeeWage(){
-		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		isDayHour=8
+while [[ $totalEmployeeHours -lt $NUMBER_OF_WORKING_HOURS &&
+			$totalWorkingDays -lt $NUMBER_OF_WORKING_DAYS ]]
+do
+	((totalWorkingDays++))
+	randomShiftCheck=$((RANDOM%3))
+	case $randomShiftCheck in
 
-		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
-		read -p "working days :" isDay
-		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay  *  $isDay ))
-		echo "employee wages for a Month :" $calculateEmployeeWageForMonth "rupees"
-		}
-		calculateDailyEmployeeWage
-		;;
-	1)echo "part time Employee and wage"
+		$IS_FULL_TIME )
+			employeeHour=$((EMPLOYEE_HOUR_FULLTIME))
+			;;
+		$IS_PART_TIME )
+			employeeHour=$((EMPLOYEE_HOUR_PARTTIME))
+			;;
+		* )
+			employeeHour=0
+			;;
+	esac
+	totalEmployeeHours=$(($totalEmployeeHours+$employeeHour))
+	echo "total employee hours :" $totalEmployeeHours
+done
 
-		function partTimeEmployeeAndWage(){
-		read -p "Assume Wage per hour is :" isWagePerHour "rupees"
-		isDayHour=8
 
-		calculateEmployeeWageForOneDay=$(( $isWagePerHour * $isDayHour ))
-		read -p "part time working days :" isDay
+totalWorkingWage=$(($totalEmployeeHours*$WAGE_PER_HOUR))
 
-		calculateEmployeeWageForMonth=$(( $calculateEmployeeWageForOneDay * $isDay ))
-		echo "To calculate employee part time wages for a Month :" $calculateEmployeeWageForMonth "rupees"
-		}
-		partTimeEmployeeAndWage
-		;;
-		*)echo "plese enter 1 or 0"
-		;;
-esac
-
-else
-   echo "Employee Absent"
- fi
+echo "Total working wage:" $totalWorkingWage
